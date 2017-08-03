@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Accounts Web UI</title>
+
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/atelier-forest-dark.min.css">
+        <link href="/media/main.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap2/bootstrap-switch.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+    </head>
+
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                  <a class="navbar-brand" href="#">Accounts</a>
+                  <a class="navbar-brand" href="javascript:void(0)"
+                     id='show_add_user'>Добавить клиента</a>
+                  <a class="navbar-brand" href="javascript:void(0)"
+                     id='show_operations'>Операции cо счетом</a>
+                  <a class="navbar-brand" href="javascript:void(0)"
+                     id='show_balance'>Баланс счета</a>
+                  <a class="navbar-brand" href="javascript:void(0)"
+                     id='show_lists'>Выписки</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADD USER {{{ -->
+        <div class="container" id="add_user_container"
+              style='display: none;'>
+          <div class="jmb">
+            <div class="jmb-message" >
+              <h3>Введите данные о клиенте</h3>
+            </div>
+          </div>
+
+          <div class="form-group">
+              <label>
+                  Имя клиента
+              </label>
+              <input type="text" class="form-control" id="user_name">
+              <label>
+                  Номер счета клиента
+              </label>
+              <input type="number" class="form-control" id="au_account_id">
+              <br>
+              <button type="button" class="btn .btn-primary" id='do_add_user'>
+                Добавить клиента
+              </button>
+          </div>
+        </div>
+        <!-- }}} -->
+
+        <!-- OPERATIONS {{{ -->
+        <div class="container" id="operations_container" style='display: none'>
+          <div class="jmb">
+            <div class="jmb-message" >
+              <h3>Операции со счетами</h3>
+            </div>
+          </div>
+
+          <div class="form-group">
+
+              <br>
+              <label for="operation_type">
+                  Тип операции
+              </label>
+              <select class="selectpicker" id="operation_type">
+                <option value='0'>Добавить</option>
+                <option value='1'>Снять</option>
+                <option value='2'>Блокировать</option>
+              </select>
+              <br>
+
+              <label>
+                  Номер счета клиента
+              </label>
+              <input type="text" class="form-control" id="op_account_id">
+              <label>
+                  Описание
+              </label>
+              <input type="text" class="form-control" id="description">
+              <label>
+                  Сумма
+              </label>
+              <input type="number" class="form-control" id="amount">
+              <br>
+              <button type="button" class="btn .btn-primary" id='apply_operation'>
+                Применить
+              </button>
+          </div>
+        </div>
+        <!-- }}} -->
+
+        <!-- BALANCE {{{ -->
+        <div class="container" id="balance_container" style='display: none'>
+          <div class="jmb">
+            <div class="jmb-message" >
+              <h3>Баланс счета</h3>
+            </div>
+          </div>
+
+          <div class="form-group">
+              <label>
+                  Номер счета клиента
+              </label>
+              <input type="number" class="form-control" id="gb_account_id">
+              <br>
+              <button type="button" class="btn .btn-primary" id='get_balance'>
+                Запросить
+              </button>
+          </div>
+        </div>
+        <!-- }}} -->
+
+        <!-- LISTS {{{ -->
+
+        <div class="container" id="lists_container" style='display: none'>
+
+          <div class="jmb">
+            <div class="jmb-message" >
+              <h3>Выписки</h3>
+            </div>
+          </div>
+
+          <div class="form-group">
+              <label>
+                  Операции по счету
+              </label>
+              <input type="number" class="form-control" id="ll_account_id">
+              <br>
+              <button type="button" class="btn .btn-primary"
+                id='get_last_n_operations'>
+                Запросить
+              </button>
+            </div>
+            <br>
+
+            <table id='n_out' class='table container'>
+              <thead>
+                <tr>
+                  <th>Время</th>
+                  <th>ID операции</th>
+                  <th>ID пользователя</th>
+                  <th>Сумма</th>
+                  <th>Тип</th>
+                  <th>Описание</th>
+                </tr>
+              </thead>
+            </table>
+            <br><br>
+            <hr style="width: 100%; color: black; height: 1px;
+                background-color:black;" />
+
+            <div class="form-group">
+              <label>
+                  Операции за период
+              </label>
+              <input type="number" class="form-control" id="ts_start">
+              <input type="number" class="form-control" id="ts_end">
+              <br>
+              <button type="button" class="btn .btn-primary"
+                id='get_operations_for_period'>
+                Запросить
+              </button>
+            </div>
+            <br>
+
+            <table id='p_out' class='table container'>
+              <thead>
+                <tr>
+                  <th>ID счета (Таблица user)</th>
+                  <th>Имя пользователя (Таблица user)</th>
+                  <th>ID пользователя (Таблица user)</th>
+                  <th>Время</th>
+                  <th>ID операции</th>
+                  <th>ID пользователя</th>
+                  <th>Сумма</th>
+                  <th>Тип</th>
+                  <th>Описание</th>
+                </tr>
+              </thead>
+            </table>
+            <br><br>
+            <hr style="width: 100%; color: black; height: 1px;
+                background-color:black;" />
+
+        </div>
+        <!-- }}} -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.js"></script>
+        <script type="text/javascript" charset="utf8"
+                                       src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+        <script src="/js/main.js"></script>
+    </body>
+</html>

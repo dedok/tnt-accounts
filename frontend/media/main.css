@@ -1,0 +1,41 @@
+body {
+    padding-top: 50px;
+}
+.starter-template {
+    padding: 40px 15px;
+}
+#cluster_box {
+  display: none;
+}
+#my_cluster {
+  width: 100%;
+  height: 600px;
+  border: 1px solid lightgray;
+}
+.jmb-message {
+    background: rgba(255, 255, 255, 0.78);
+    position: relative;
+    top: 140px;
+}
+.ucp-err{
+    color: red;
+}
+.jmb-message p{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 15px;
+}
+.jmb-message h1{
+    padding-left: 10px;
+    font-size: 50px;
+}
+.jmb-version{
+    color: #494949;
+}
+.jmb{
+    background: url('http://tarantool.org/theme/bg_job.jpg') center 50%;
+    width: 100%;
+    border-radius: 10px;
+    height: 200px;
+    margin-bottom: 15px;
+}
