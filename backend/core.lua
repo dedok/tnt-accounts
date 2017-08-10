@@ -23,7 +23,7 @@ mt = { __index = {
 
     box.cfg {
       log_level = 5,
-      listen = '127.0.0.1:3111',
+      listen = '*:3113',
       memtx_memory = 1024 * 1024 * 1024 * 10,
       wal_mode = 'write'
     }
@@ -116,7 +116,7 @@ mt = { __index = {
     end
 
     local user = self.tables.users.index.account_id:get{operation.account_id}
-    return self.make_user(user),
+    return {self.make_user(user),
           self.make_operation(
               self.tables.operations:auto_increment{
                   user[1],
@@ -124,7 +124,7 @@ mt = { __index = {
                   operation.type,
                   operation.description,
                   operation.amount}
-          )
+          )}
   end,
 
 
@@ -151,7 +151,7 @@ mt = { __index = {
 
     box.commit()
 
-    return result
+    return {result}
   end,
 
 
@@ -175,7 +175,7 @@ mt = { __index = {
     end
     box.commit()
 
-    return user, res
+    return {user, res}
   end,
 
   get_balance = function(self, args)

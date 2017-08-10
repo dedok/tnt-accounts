@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.backend
+    networks:
+      - realtynet
+    ports:
+      - "3113:3113"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.nginx
+    environment:
+      NGX_LISTEN: "*:8081"
+      NGX_TNT_ENDPOINT: backend:3113
+    depends_on:
+      - backend
+    networks:
+      - realtynet
+    ports:
+      - "8081:8081"
+
+networks:
+    realtynet:
+

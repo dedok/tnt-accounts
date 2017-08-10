@@ -1,0 +1,11 @@
+FROM tarantool/tarantool-nginx
+
+COPY confs/nginx.conf /etc/nginx/nginx.conf
+COPY frontend/* /etc/nginx/html/
+
+RUN mkdir /etc/nginx/html/js
+RUN mkdir /etc/nginx/html/media
+COPY frontend/js/* /etc/nginx/html/js/
+COPY frontend/media/* /etc/nginx/html/media
+
+RUN rm /etc/nginx/conf.d/default.conf

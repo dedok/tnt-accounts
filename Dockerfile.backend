@@ -1,0 +1,7 @@
+FROM tarantool/tarantool:1.7
+
+COPY backend/http_api.lua /opt/tarantool/http_api.lua
+COPY backend/core.lua /opt/tarantool/core.lua
+COPY backend/util.lua /opt/tarantool/util.lua
+
+CMD ["tarantool", "/opt/tarantool/http_api.lua"]

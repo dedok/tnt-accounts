@@ -66,7 +66,7 @@ def post(url, data, verbose = False):
 ## Test cases
 
 #BASE_URL = 'http://sh2.tarantool.org/api'
-BASE_URL = 'http://127.0.0.1:8081'
+BASE_URL = 'http://127.0.0.1:8081/api'
 
 account_id = int(time.time())
 
@@ -74,8 +74,8 @@ print ('[+] /add/user')
 url = BASE_URL + '/add/user'
 user_params = {"params":[{"account_id": account_id, "user_name": "Vasiliy" }]}
 rc, out = post(url, user_params)
+print (rc, out)
 assert rc == 200, 'rc != 200'
-print (out)
 user_params['params'][0]['id'] = out['result'][0]['id']
 assert user_params['params'] == out['result'], 'params != result'
 print ('[+] OK')
@@ -112,5 +112,4 @@ print ('[+] OK')
 print ('[+] /get/account/balance')
 url = BASE_URL + '/get/account/balance?account_id=' + str(account_id)
 rc, out = get(url)
-print (out)
 print ('[+] OK')
