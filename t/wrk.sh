@@ -1,7 +1,7 @@
 #!/bin/bash
 
-con=400
-th=200
+con=10
+th=10
 dur=300s
 url='http://127.0.0.1:8081'
 #url='http://sh2.tarantool.org'

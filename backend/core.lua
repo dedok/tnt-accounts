@@ -24,13 +24,15 @@ mt = { __index = {
     box.cfg {
       log_level = 5,
       listen = '*:3113',
-      memtx_memory = 1024 * 1024 * 1024 * 10,
+      memtx_memory = 1024 * 1024 * 1024 * 1,
       wal_mode = 'write'
     }
 
     box.schema.user.grant('guest', 'read,write,execute',
                       'universe', nil, {if_not_exists = true})
 
+    --
+    -- CREATE TABLE (id, acount_id)
     t.users = box.schema.space.create('users', {if_not_exists=true})
     t.users:create_index('id', {type='TREE', if_not_exists=true})
     t.users:create_index('account_id', {type='HASH', parts = {2, 'unsigned'},
