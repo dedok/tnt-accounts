@@ -92,11 +92,11 @@ for _ in range(0, 10):
         "user_id": user_params['params'][0]['id']
     }]}
     rc, out = post(url, opt_params)
-    opt_params['params'][0]['id'] = out['result'][1]['id']
-    out['result'][1]['account_id'] = opt_params['params'][0]['account_id']
+    opt_params['params'][0]['id'] = out['result'][0][1]['id']
+    out['result'][0][1]['account_id'] = opt_params['params'][0]['account_id']
     assert rc == 200, 'rc != 200'
-    assert user_params['params'][0] == out['result'][0] and \
-            opt_params['params'][0] == out['result'][1], 'params != result'
+    assert user_params['params'][0] == out['result'][0][0] and \
+            opt_params['params'][0] == out['result'][0][1], 'params != result'
 print ('[+] OK')
 
 print ('[+] /get/operations')
